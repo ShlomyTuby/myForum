@@ -1,0 +1,21 @@
+{
+  "name": "ngForum",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Shalom Tuby <shalomT@one1.co.il>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7"
+  }
+}

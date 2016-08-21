@@ -1,1 +1,48 @@
-<h1>Hellow world</h1>
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>ngForum</title>
+  <meta name="description" content="Forum using angularjs">
+  <meta name="author" content="Shalom Tuby">
+
+  <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.css">
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body ng-app="ngForum" >
+
+    
+    <div class="container" ng-controller="mainController" >
+        
+        <div class="page-header">
+          <h1> {{ appTitle }} <small> {{ appSubTitle }} </small></h1>
+        </div>
+
+
+        <post-list></post-list>
+        
+    </div>
+    
+
+  
+  <script type="text/javascript" src="jquery/dist/jquery.js?V1.0.0" > </script>
+  <script type="text/javascript" src="angular/angular.js?V1.0.0" > </script>
+  <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js?V1.0.0" > </script>
+
+  <!-- app files -->
+  <script type="text/javascript" src="app.module.js" > </script>
+  <script type="text/javascript" src="main.controller.js" > </script>
+  <script type="text/javascript" src="post/post.service.js" > </script>
+  <script type="text/javascript" src="post/post-list.component.js" > </script>
+
+  
+
+</body>
+</html>
