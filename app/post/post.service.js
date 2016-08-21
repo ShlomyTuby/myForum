@@ -1,6 +1,8 @@
 
 angular.module('ngForum')
-.factory('PostService',[function PostService(){
+.factory('PostService',PostService);
+
+function PostService($q){
 
     that = this;
 
@@ -24,6 +26,31 @@ angular.module('ngForum')
         return this.posts;
     }
 
+    that.addNewPost = function(post){
+        var posts = this.posts;
+        var deferred = $q.defer();
+            setTimeout(function() {
+                if(!posts){
+                    posts = [];
+                };
+                posts.push(
+                    {
+                        _id: posts.length,
+                        header: post.header,
+                        text: post.text,
+                        author: post.author
+                    }
+                );
+                deferred.resolve(
+                    posts[posts.length - 1]
+                );
+            }, 1000);
+        return deferred.promise;
+    }
+
     return that;
 
-}]);
+};
+
+
+PostService.$inject = ['$q'];

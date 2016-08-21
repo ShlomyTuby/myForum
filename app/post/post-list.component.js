@@ -11,7 +11,7 @@ angular.module('ngForum')
 
 
 function postListController($scope,postService){
-    $scope.header = 'Post List';
+    $scope.header = 'Posts List';
     $scope.posts = postService.getAllPosts();
     
 }
