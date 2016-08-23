@@ -2,28 +2,33 @@
  
  <h4>{{header}}</h4>
 
- <form ng-submit="addNewPost()" name="newPostForm">
+ <form ng-submit="addNewPost()" name="newPostForm" >
   <div class="form-group"
-  ng-class="{ 'has-error': newPostForm.header.$invalid }" >
-    <label for="header">Header:</label>
+  ng-class="{ 'has-danger': newPostForm.header.$invalid && newPostForm.header.$dirty }">
     <input type="text" 
-      class="form-control" id="header"
+      class="form-control form-control-sm" id="header" name="header"
+      ng-class="{ 'form-control-dange': newPostForm.header.$invalid && newPostForm.header.$dirty }"
+      placeholder="header *"
       required
      ng-model="newPost.header">
+     <div class="form-control-feedback" ng-if="newPostForm.header.$invalid && newPostForm.header.$dirty && newPostForm.header.$error.required">Header required.</div>
   </div>
   <div class="form-group">
-    <label for="body">Body:</label>
-    <textarea type="textarea" class="form-control" id="body" 
+    <textarea type="textarea" class="form-control form-control-sm" id="body" name="body"
+    placeholder="body"
     rows="5"
     ng-model="newPost.text"></textarea>
   </div>
-  <div class="form-group">
-    <label for="author">Author:</label>
-    <input type="text" class="form-control" id="author" 
+  <div class="form-group"
+   ng-class="{ 'has-danger': newPostForm.author.$invalid && newPostForm.author.$dirty }">
+    <input type="text" class="form-control form-control-sm" id="author" name="author"
+    ng-class="{ 'form-control-danger': newPostForm.author.$invalid && newPostForm.author.$dirty }"
+    placeholder="author *"
     required
     ng-model="newPost.author">
+     <div class="form-control-feedback" ng-if="newPostForm.author.$invalid && newPostForm.author.$dirty && newPostForm.author.$error.required">Author required.</div>
   </div>
-  <button type="submit" class="btn btn-primary">Add Post</button>
+  <button type="submit" class="btn btn-primary" ng-disabled="newPostForm.$invalid">Add Post</button>
 </form>
 
 <hr/>
