@@ -1,41 +1,42 @@
 angular.module('ngForum')
 .factory('AppProperties',AppProperties);
 
-function AppProperties($rootScope,$q,localStorage){
+function AppProperties($q,localStorage){
+
+    var that = this;
 
     function getDate(){
         localStorage.get('appProperties')
         .then(function(appProperties){
              console.log('getDate','appProperties',appProperties);
-             $rootScope.appProperties = appProperties;
+             that.appProperties = appProperties;
         });
     }
 
     function saveData(){
-        console.log('saveData','appProperties',$rootScope.appProperties);
-        localStorage.set('appProperties',$rootScope.appProperties);
+        console.log('saveData','appProperties',that.appProperties);
+        localStorage.set('appProperties',that.appProperties);
     }
 
     function constructor(){
-       $rootScope.appProperties = $rootScope.appProperties || {};
+       that.appProperties = that.appProperties || {};
        getDate();
     }
     constructor();
 
-    that = this;
 
     that.getProperty = function(key){
 
         var deferred = $q.defer();
             setTimeout(function() {
-                if(!$rootScope.appProperties[key]){
+                if(!that.appProperties[key]){
                     deferred.reject(
                         { error: 'no key ' + key + ' found' }
                     )
                 }else{
-                    console.log('getProperty','$rootScope.appProperties['+key+']',$rootScope.appProperties[key]);
+                    console.log('getProperty','that.appProperties['+key+']',that.appProperties[key]);
                     deferred.resolve(
-                        $rootScope.appProperties[key]
+                        that.appProperties[key]
                     );
                 }
             }, 1000);
@@ -46,10 +47,10 @@ function AppProperties($rootScope,$q,localStorage){
         console.log('setProperty','key',key,'value',value);
         var deferred = $q.defer();
             setTimeout(function() {
-                    $rootScope.appProperties[key] = value;
+                    that.appProperties[key] = value;
                     saveData();
                     deferred.resolve(
-                        $rootScope.appProperties[key]
+                        that.appProperties[key]
                     );
                 
             }, 1000);
@@ -60,4 +61,4 @@ function AppProperties($rootScope,$q,localStorage){
     return that;
 }
 
-AppProperties.$inject = ['$rootScope','$q','LocalStorageService'];
+AppProperties.$inject = ['$q','LocalStorageService'];

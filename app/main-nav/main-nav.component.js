@@ -6,7 +6,7 @@ angular.module('ngForum')
 });
 
 
-function mainNavController($rootScope,$scope,$location,appProperties){
+function mainNavController($scope,$location,appProperties){
     $scope.appName = 'ngForum'
     $scope.userName = '';
 
@@ -40,4 +40,4 @@ function mainNavController($rootScope,$scope,$location,appProperties){
     }
 }
 
-mainNavController.$inject = ['$rootScope','$scope','$location','AppProperties'];
+mainNavController.$inject = ['$scope','$location','AppProperties'];
