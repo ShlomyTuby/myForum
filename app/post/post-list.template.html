@@ -1,13 +1,13 @@
- 
- <new-post></new-post>
- 
- <h4>{{header}}</h4>
+ <br/>
+ <h2>{{header}}</h2>
+ <hr/>
 
  <div post-id="{{post._id}}" class="card card-block" ng-repeat="post in posts">
-  <h4 class="card-title">{{post.header}}</h4>
+  <h4 class="card-title">{{post.header}}  <small>#{{post.author}}</small>   <button ng-disabled="post.disableDeletedBotton" ng-click="deletePost(post)" class="btn btn-danger btn-sm">Delete</button></h4>
+ 
   <p class="card-text">{{post.text}}</p>
   
-  <a href="#" class="card-link"2>Open</a>
+  <a href="#" class="card-link">Open</a>
   <a href="#" class="card-link">Post</a>
-  <small>{{post.author}}</small>
+  
 </div>

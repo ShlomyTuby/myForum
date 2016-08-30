@@ -1,3 +1,3 @@
 
-var app = angular.module('ngForum', []);
+var app = angular.module('ngForum', ['ngRoute','ngStorage']);
 

@@ -2,32 +2,42 @@
 angular.module('ngForum')
 .factory('PostService',PostService);
 
-function PostService($q){
+function PostService($localStorage,$q){
 
     that = this;
 
-    this.posts = [
-        {
-            _id: 1,
-            header: 'my first post',
-            text: 'this is my first posts',
-            author: 'shalom tuby' 
-        },
-        {
-            _id: 2,
-            header: 'my second post',
-            text: 'this is my second posts',
-            author: 'shalom tuby' 
-        }
+    posts = [];
 
-    ];
+    
+    saveData = function(){
+        $localStorage.posts = posts || [];
+    }
+
+    initData = function(){
+        posts = $localStorage.posts || [];
+    }
+    initData();
+
 
     that.getAllPosts = function(){
-        return this.posts;
+        return posts;
+    }
+
+    that.deletePost = function(post){
+        var deferred = $q.defer();
+            setTimeout(function() {
+                posts = posts.filter(function(p){
+                    return p._id !== post._id;
+                });
+                saveData();
+                deferred.resolve(
+                    posts[posts.length - 1]
+                );
+            }, 1000);
+        return deferred.promise;
     }
 
     that.addNewPost = function(post){
-        var posts = this.posts;
         var deferred = $q.defer();
             setTimeout(function() {
                 if(!posts){
@@ -41,6 +51,7 @@ function PostService($q){
                         author: post.author
                     }
                 );
+                saveData();
                 deferred.resolve(
                     posts[posts.length - 1]
                 );
@@ -48,9 +59,9 @@ function PostService($q){
         return deferred.promise;
     }
 
+
     return that;
 
 };
 
-
-PostService.$inject = ['$q'];
+PostService.$inject = ['$localStorage','$q'];
