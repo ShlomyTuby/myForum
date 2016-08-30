@@ -4,9 +4,7 @@ angular.module('ngForum')
 
 function LocalStorageService($localStorage,$q){
 
-    this.localStorage = {
-        userName: 'Gust User'
-    };
+    this.localStorage = $localStorage;
 
     that = this;
 
@@ -33,7 +31,6 @@ function LocalStorageService($localStorage,$q){
         var deferred = $q.defer();
             setTimeout(function() {
                     localStorage[key] = value;
-                    $localStorage[key] = value;
                     deferred.resolve(
                         localStorage[key]
                     );
@@ -41,11 +38,6 @@ function LocalStorageService($localStorage,$q){
             }, 1000);
             return deferred.promise;
     }
-
-    function constructor($localStorage){
-        $localStorage.$default(this.localStorage);
-        this.localStorage = $localStorage;
-    }($localStorage);
 
     return that;
 };

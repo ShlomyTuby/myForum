@@ -3,10 +3,7 @@
 angular.module('ngForum')
 .component('newPost',{
     templateUrl: 'post/new-post.template.html',
-    controller: newPostController,
-    resloved: function(){
-        console.log('reslove');
-    }
+    controller: newPostController
 });
 
 
@@ -19,10 +16,19 @@ function newPostController($scope,postService,$timeout,$location,appProperties){
         author: '',
     }
 
+    appProperties.registerForChange('userName',function(newVal,oldVal){
+        $scope.newPost.author = newVal;
+        try {
+            $scope.$digest();   
+        } catch (error) {
+            
+        }
+    });
+
     appProperties.getProperty('userName')
         .then(function(userName){
             $scope.newPost.author = userName;            
-        })
+        });
 
     $scope.addNewPost = function(){
         $scope.status = 'load';

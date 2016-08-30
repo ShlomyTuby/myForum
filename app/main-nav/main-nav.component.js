@@ -8,17 +8,19 @@ angular.module('ngForum')
 
 function mainNavController($scope,$location,appProperties){
     $scope.appName = 'ngForum'
-    $scope.userName = '';
+    $scope.userName = null;
 
     function constructor(){
-        console.log('constructor');
-        appProperties.getProperty('userName')
-            .then(function(userName){
-                console.log('mainNavController:constructor:userName',userName);
-                $scope.userName = userName;
-            },function(error){
-                console.log('mainNavController:constructor:userName:faild',error);
-            });
+        appProperties.registerForChange('userName',function(newVal,oldVal){
+            if($scope.userName = null && $scope.userName != newVal){
+                $scope.userName = newVal;
+                try {
+                    $scope.$digest();   
+                } catch (error) {
+                    
+                }
+            }
+        });
     }
     constructor();
 
