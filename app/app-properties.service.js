@@ -59,7 +59,6 @@ function AppProperties($q,localStorage){
 
     self.applyChange = function(prop,newVal,oldVal){
         if(self.registerForChangeArr && self.registerForChangeArr[prop]){
-            self.registerForChangeArr[prop]
             self.registerForChangeArr[prop].forEach(function(cbFn) {
                 cbFn(newVal,oldVal);
             });

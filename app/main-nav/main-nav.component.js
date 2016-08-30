@@ -12,8 +12,8 @@ function mainNavController($scope,$location,appProperties){
 
     function constructor(){
         appProperties.registerForChange('userName',function(newVal,oldVal){
-            if($scope.userName == null && $scope.userName != newVal){
-                console.log('mainNavController:registerForChange',newValue,oldValue);
+            if( $scope.userName == null && $scope.userName != newVal ){
+                console.log('mainNavController:registerForChange',newVal,oldVal);
                 $scope.userName = newVal;
                 try {
                     $scope.$digest();   
