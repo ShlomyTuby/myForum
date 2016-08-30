@@ -36,7 +36,6 @@ function newPostController($scope,postService,$,$location,appProperties){
             $scope.newPost
         ).then(function(){
             $scope.status = 'finish';
-            $timeout(function(){$scope.status = '';},1000)
             $location.path('/posts').replace();
         });
         $scope.newPost = {
