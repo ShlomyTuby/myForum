@@ -25,7 +25,6 @@ function PostService($localStorage,$q){
 
     that.deletePost = function(post){
         var deferred = $q.defer();
-            setTimeout(function() {
                 posts = posts.filter(function(p){
                     return p._id !== post._id;
                 });
@@ -33,13 +32,11 @@ function PostService($localStorage,$q){
                 deferred.resolve(
                     posts[posts.length - 1]
                 );
-            }, 1000);
         return deferred.promise;
     }
 
     that.addNewPost = function(post){
         var deferred = $q.defer();
-            setTimeout(function() {
                 if(!posts){
                     posts = [];
                 };
@@ -55,7 +52,6 @@ function PostService($localStorage,$q){
                 deferred.resolve(
                     posts[posts.length - 1]
                 );
-            }, 1000);
         return deferred.promise;
     }
 

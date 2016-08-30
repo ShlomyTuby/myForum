@@ -7,7 +7,7 @@ angular.module('ngForum')
 });
 
 
-function newPostController($scope,postService,$timeout,$location,appProperties){
+function newPostController($scope,postService,$,$location,appProperties){
     $scope.header = 'New Post';  
     $scope.status = '';
     $scope.newPost = {

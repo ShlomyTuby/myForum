@@ -11,7 +11,6 @@ function LocalStorageService($localStorage,$q){
     that.get = function(key){
         var localStorage = this.localStorage;
         var deferred = $q.defer();
-            setTimeout(function() {
                 if(!localStorage[key]){
                     deferred.reject(
                         { error: 'no ' + key + ' found' }
@@ -21,7 +20,6 @@ function LocalStorageService($localStorage,$q){
                         localStorage[key]
                     );
                 }
-            }, 1000);
             return deferred.promise;
     }
 
@@ -29,13 +27,10 @@ function LocalStorageService($localStorage,$q){
         console.log('set','key',key,'value',value);
         var localStorage = this.localStorage;
         var deferred = $q.defer();
-            setTimeout(function() {
                     localStorage[key] = value;
                     deferred.resolve(
                         localStorage[key]
                     );
-                
-            }, 1000);
             return deferred.promise;
     }
 

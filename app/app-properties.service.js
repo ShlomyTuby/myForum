@@ -32,7 +32,6 @@ function AppProperties($q,localStorage){
     that.getProperty = function(key){
 
         var deferred = $q.defer();
-            setTimeout(function() {
                 if(!that.appProperties || !that.appProperties[key]){
                     deferred.reject(
                         { error: 'no key ' + key + ' found' }
@@ -43,22 +42,18 @@ function AppProperties($q,localStorage){
                         that.appProperties[key]
                     );
                 }
-            }, 1000);
             return deferred.promise;
     }
 
     that.setProperty = function(key,value){
         console.log('setProperty','key',key,'value',value);
         var deferred = $q.defer();
-            setTimeout(function() {
                     self.applyChange(key,value,that.appProperties[key]);
                     that.appProperties[key] = value;
                     saveData();
                     deferred.resolve(
                         that.appProperties[key]
                     );
-                
-            }, 1000);
             return deferred.promise;
     }
 

@@ -12,7 +12,8 @@ function mainNavController($scope,$location,appProperties){
 
     function constructor(){
         appProperties.registerForChange('userName',function(newVal,oldVal){
-            if($scope.userName = null && $scope.userName != newVal){
+            if($scope.userName == null && $scope.userName != newVal){
+                console.log('mainNavController:registerForChange',newValue,oldValue);
                 $scope.userName = newVal;
                 try {
                     $scope.$digest();   
@@ -21,15 +22,17 @@ function mainNavController($scope,$location,appProperties){
                 }
             }
         });
+
+        $scope.$watch('userName',function(newValue,oldValue){
+            if( (newValue != null ||  oldValue != null ) && newValue !== oldValue ){
+                console.log('mainNavController:watch:userName',newValue,oldValue);
+                appProperties.setProperty('userName',newValue);
+            }
+        },true);
     }
     constructor();
 
-    $scope.$watch('userName',function(newValue,oldValue){
-        console.log('mainNavController:watch:userName',newValue,oldValue);
-        if( newValue !== oldValue ){
-            appProperties.setProperty('userName',newValue);
-        }
-    },true);
+    
 
     $scope.isActive = function(urlPart){
         var url = $location.url();
