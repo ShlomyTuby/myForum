@@ -1,24 +1,37 @@
 
 
-angular.module('ngForum')
-.component('postList',{
-    templateUrl: 'post/post-list.template.html',
-    controller: postListController
-});
+angular.module('myForum')
+    .component('postList',{
+        templateUrl: 'post/post-list.template.html',
+        controller: PostListController,
+        controllerAs: 'listCtrl'
+    });
 
+PostListController.$inject = ['$scope','PostService'];
 
-function postListController($scope,postService){
-    $scope.header = 'Posts List';
-    $scope.posts = postService.getAllPosts();
+function PostListController($scope,PostService){
     
-    $scope.deletePost = function(post){
+    var that = this
+    that.deletePost = deletePost;
+    that.onAddNewReplay = onAddNewReplay;
+
+    function constructor(){
+        that.header = 'Posts List';
+        that.posts = PostService.getAllPosts();
+    }
+
+    function deletePost(post){
         post.disableDeletedBotton = true;
-        postService.deletePost(post)
+        PostService.deletePost(post)
             .then(function(){
-                $scope.posts = postService.getAllPosts();
+                that.posts = PostService.getAllPosts();
             });
     }
-    
-}
 
-postListController.$inject = ['$scope','PostService'];
+    function onAddNewReplay(){
+         that.posts = PostService.getAllPosts();
+    }
+
+    constructor();
+};
+

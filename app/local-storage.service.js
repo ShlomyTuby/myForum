@@ -1,40 +1,44 @@
-angular.module('ngForum')
+/**
+ * Local Storage Service
+ * implament the $localStorage Service
+ */
+angular.module('myForum')
+    .service('LocalStorageService',LocalStorageService);
 
-.factory('LocalStorageService',LocalStorageService);
+LocalStorageService.$inject = ['$localStorage','$q'];
 
 function LocalStorageService($localStorage,$q){
 
-    this.localStorage = $localStorage;
+    var that = this;
+    that.get = get;
+    that.set = set;
 
-    that = this;
+    function constructor() {
 
-    that.get = function(key){
-        var localStorage = this.localStorage;
+    };
+
+    function get(key){
         var deferred = $q.defer();
-                if(!localStorage[key]){
+                if(!$localStorage[key]) {
                     deferred.reject(
                         { error: 'no ' + key + ' found' }
                     )
-                }else{
+                } else {
                     deferred.resolve(
-                        localStorage[key]
+                        $localStorage[key]
                     );
                 }
             return deferred.promise;
-    }
+    };
 
-    that.set = function(key,value){
-        console.log('set','key',key,'value',value);
-        var localStorage = this.localStorage;
+    function set(key,value){
         var deferred = $q.defer();
-                    localStorage[key] = value;
+                    $localStorage[key] = value;
                     deferred.resolve(
-                        localStorage[key]
+                        $localStorage[key]
                     );
             return deferred.promise;
-    }
+    };
 
-    return that;
+    constructor();
 };
-
-LocalStorageService.$inject = ['$localStorage','$q'];

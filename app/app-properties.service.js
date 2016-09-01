@@ -1,87 +1,89 @@
-angular.module('ngForum')
-.factory('AppProperties',AppProperties);
+/**
+ * 
+ *  App Properties Service 
+ */
+angular.module('myForum')
+    .service('AppPropertiesService',AppPropertiesService);
 
-function AppProperties($q,localStorage){
+AppPropertiesService.$inject = ['$q','LocalStorageService'];
+
+function AppPropertiesService($q,LocalStorageService){
 
     var that = this;
-    var self = this;
+    that.getProperty = getProperty;
+    that.setProperty = setProperty;
+    that.registerForChange = registerForChange;
 
-    function getDate(){
-        localStorage.get('appProperties')
-        .then(function(appProperties){
-             console.log('getDate','appProperties',appProperties);
-             that.appProperties = appProperties;
-             for(prop in that.appProperties){
-                 console.log('appProperties:getDate:for:prop',prop,that.appProperties[prop])
-                 self.applyChange(prop,that.appProperties[prop],null)
+    //local varible
+    appProperties = {};
+    registerForChangeArr = {};
+
+    function constructor() {
+        initData()
+    };
+
+    function initData() {
+        LocalStorageService.get('appProperties')
+        .then(function(data){
+             appProperties = data;
+             for(prop in appProperties){
+                 applyChange(prop,appProperties[prop],null)
              }
         },console.error)
     }
 
     function saveData(){
-        console.log('saveData','appProperties',that.appProperties);
-        localStorage.set('appProperties',that.appProperties);
+        LocalStorageService.set('appProperties',appProperties);
     }
 
-    function constructor(){
-       getDate();
-    }
-    constructor();
-
-
-    that.getProperty = function(key){
-
+    function getProperty(key) {
         var deferred = $q.defer();
-                if(!that.appProperties || !that.appProperties[key]){
+                if(!appProperties || !appProperties[key]){
                     deferred.reject(
                         { error: 'no key ' + key + ' found' }
                     )
                 }else{
-                    console.log('getProperty','that.appProperties['+key+']',that.appProperties[key]);
                     deferred.resolve(
-                        that.appProperties[key]
+                        appProperties[key]
                     );
                 }
             return deferred.promise;
     }
 
-    that.setProperty = function(key,value){
-        console.log('setProperty','key',key,'value',value);
+    function setProperty(key,value) {
         var deferred = $q.defer();
-                    self.applyChange(key,value,that.appProperties[key]);
-                    that.appProperties[key] = value;
+                    applyChange(key,value,appProperties[key]);
+                    appProperties[key] = value;
                     saveData();
                     deferred.resolve(
-                        that.appProperties[key]
+                        appProperties[key]
                     );
             return deferred.promise;
-    }
+    };
 
-    self.applyChange = function(prop,newVal,oldVal){
-        if(self.registerForChangeArr && self.registerForChangeArr[prop]){
-            self.registerForChangeArr[prop].forEach(function(cbFn) {
+    function applyChange(prop,newVal,oldVal) {
+        if(registerForChangeArr && registerForChangeArr[prop]){
+            registerForChangeArr[prop].forEach(function(cbFn) {
                 cbFn(newVal,oldVal);
             });
         }
-    }
+    };
 
-    that.registerForChange = function(prop,cbFn){
+     function registerForChange(prop,cbFn) {
         if( !prop ){
             throw 'property name required';
         }
         if( !cbFn ){
             throw 'callback function required';
         }
-        if(!self.registerForChangeArr){
-            self.registerForChangeArr = {};
+        if(!registerForChangeArr){
+            registerForChangeArr = {};
         }
-        if(!self.registerForChangeArr[prop]){
-            self.registerForChangeArr[prop] = [];
+        if(!registerForChangeArr[prop]){
+            registerForChangeArr[prop] = [];
         }
-        self.registerForChangeArr[prop].push(cbFn);
-    }
+        registerForChangeArr[prop].push(cbFn);
+    };
 
-    return that;
-}
-
-AppProperties.$inject = ['$q','LocalStorageService'];
+    constructor();
+};

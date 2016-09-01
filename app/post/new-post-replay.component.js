@@ -1,18 +1,23 @@
 /** 
  * 
- *  NewPostController
+ *  NewPostReplayController
  * 
  */
 angular.module('myForum')
-    .component('newPost',{
-        templateUrl: 'post/new-post.template.html',
-        controller: NewPostController,
-        controllerAs: 'newPostCtrl'
+    .component('newPostReplay',{
+        templateUrl: 'post/new-post-replay.template.html',
+        controller: NewPostReplayController,
+        controllerAs: 'newPostCtrl',
+        require: '^postList',
+        bindings: {
+            parentPost: '<',
+            onAddNewReplay: "&"
+        }
     });
 
-NewPostController.$inject = ['$scope','PostService','$location','AppPropertiesService'];
+NewPostReplayController.$inject = ['$scope','PostService','AppPropertiesService'];
 
-function NewPostController($scope,postService,$location,AppPropertiesService){
+function NewPostReplayController($scope,postService,AppPropertiesService){
     
     var that = this;
 
@@ -23,6 +28,7 @@ function NewPostController($scope,postService,$location,AppPropertiesService){
          * initial data
          */
         that.header = 'New Post';
+        that.parentPost = this.parentPost;
         $scope.newPost = new Post();
         /**
          *  get current global app Prop 'name' field' 
@@ -42,16 +48,18 @@ function NewPostController($scope,postService,$location,AppPropertiesService){
     }
     /**
      * add new post 
-     * and redirectTo post-list view
      */
     function addNewPost() {
         postService.addNewPost(
             $scope.newPost
         ).then(function(){
-            $location.path('/posts').replace();
+            $scope.newPost = new Post();
+             that.onAddNewReplay();
         });
-        $scope.newPost = new Post();
+       
     }
 
+
+    //this.$onInit()
     constructor();
 };

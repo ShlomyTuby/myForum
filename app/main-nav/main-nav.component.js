@@ -1,40 +1,56 @@
+/**
+ * 
+ * Main Nav Controller
+ *  controller for Nav element
+ *      header and tabs
+ */
+angular.module('myForum')
+    .component('mainNav',{
+        templateUrl: 'main-nav/main-nav.template.html',
+        controller: MainNavController,
+        controllerAs: 'navCtrl'
+    });
 
-angular.module('ngForum')
-.component('mainNav',{
-    templateUrl: 'main-nav/main-nav.template.html',
-    controller: mainNavController,
-});
 
+MainNavController.$inject = ['$scope','$location','AppPropertiesService'];
 
-function mainNavController($scope,$location,appProperties){
-    $scope.appName = 'ngForum'
+function MainNavController($scope,$location,AppPropertiesService){
+
+    var that = this;
+    that.isActive = isActive;
+    //local varible
+    that.appName = 'myForum';
     $scope.userName = null;
+    
+    function constructor(){        
 
-    function constructor(){
-        appProperties.registerForChange('userName',function(newVal,oldVal){
+        /**
+         *  get current global app Prop 'name' field' 
+         */
+        AppPropertiesService.getProperty('userName')
+            .then(function(userName){
+                $scope.userName = userName;      
+                !$scope.$$phase || $scope.$digest();      
+            });
+        /**
+         *  register For App Prop 'name' field Change
+         */
+        AppPropertiesService.registerForChange('userName',function(newVal,oldVal){
             if( $scope.userName == null && $scope.userName != newVal ){
-                console.log('mainNavController:registerForChange',newVal,oldVal);
                 $scope.userName = newVal;
-                try {
-                    $scope.$digest();   
-                } catch (error) {
-                    
-                }
+                !$scope.$$phase || $scope.$digest();
             }
         });
 
         $scope.$watch('userName',function(newValue,oldValue){
             if( (newValue != null ||  oldValue != null ) && newValue !== oldValue ){
-                console.log('mainNavController:watch:userName',newValue,oldValue);
-                appProperties.setProperty('userName',newValue);
+                AppPropertiesService.setProperty('userName',newValue);
             }
         },true);
+
     }
-    constructor();
 
-    
-
-    $scope.isActive = function(urlPart){
+    function isActive(urlPart) {
         var url = $location.url();
         if( url.indexOf(urlPart) == 0 ){
             return true;
@@ -43,6 +59,6 @@ function mainNavController($scope,$location,appProperties){
             return false;
         }
     }
-}
 
-mainNavController.$inject = ['$scope','$location','AppProperties'];
+    constructor();
+};

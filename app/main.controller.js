@@ -1,10 +1,19 @@
+/**
+ * Main Controller
+ */
+angular.module('myForum')
+    .controller('MainController',MainController);
 
+MainController.$inject = ['$scope'];
 
+function MainController($scope) {
 
-angular.module('ngForum')
-.controller('mainController',['$scope',function mainController($scope){
+    var that = this;
 
-    $scope.appTitle = 'ngForum';
-    $scope.appSubTitle = 'by shalom tuby';
-
-}]);
+    function constructor() {
+        that.appSubTitle = 'myForum';
+        that.appTitle = 'post and replay';
+    };
+    
+    constructor();
+};

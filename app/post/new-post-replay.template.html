@@ -1,0 +1,15 @@
+ 
+
+ <form ng-submit="newPostCtrl.addNewPost()" name="newPostForm" >
+  <div class="form-group"
+  ng-class="{ 'has-danger': newPostForm.text.$invalid && newPostForm.text.$dirty }">
+    <input type="text" 
+      class="form-control form-control-sm" id="text" name="text"
+      ng-class="{ 'form-control-dange': newPostForm.text.$invalid && newPostForm.text.$dirty }"
+      placeholder="RE: {{ $ctrl.parentPost.header }}"
+      required
+     ng-model="newPost.text">
+     <div class="form-control-feedback" ng-if="newPostForm.text.$invalid && newPostForm.text.$dirty && newPostForm.text.$error.required">text required.</div>
+  </div>
+  <button type="submit" class="btn btn-primary" ng-disabled="newPostForm.$invalid">Replay</button>
+</form>

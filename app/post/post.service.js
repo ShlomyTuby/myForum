@@ -1,63 +1,68 @@
 
-angular.module('ngForum')
-.factory('PostService',PostService);
+/**
+ *
+ * Post Service
+ * 
+ *   */
+angular.module('myForum')
+    .service('PostService',PostService);
+
+PostService.$inject = ['$localStorage','$q'];
 
 function PostService($localStorage,$q){
 
-    that = this;
+    var that = this;
+
+    that.getAllPosts = getAllPosts;
+    that.deletePost = deletePost;
+    that.addNewPost = addNewPost;
 
     posts = [];
+    function constructor() {
+        initData();
+    }
 
-    
-    saveData = function(){
+    function saveData() {
         $localStorage.posts = posts || [];
-    }
+    };
 
-    initData = function(){
+    function initData() {
         posts = $localStorage.posts || [];
-    }
-    initData();
+    };
 
+    function getAllPosts() {
+        initData();
+        return posts.filter(function(post){
+            return !post.parentPostId;
+        });;
+    };
 
-    that.getAllPosts = function(){
-        return posts;
-    }
-
-    that.deletePost = function(post){
+    function deletePost(post) {
         var deferred = $q.defer();
                 posts = posts.filter(function(p){
                     return p._id !== post._id;
                 });
                 saveData();
                 deferred.resolve(
-                    posts[posts.length - 1]
+                    { status: 'deleted success' }
                 );
         return deferred.promise;
-    }
+    };
 
-    that.addNewPost = function(post){
+    function addNewPost(post) {
         var deferred = $q.defer();
                 if(!posts){
                     posts = [];
                 };
                 posts.push(
-                    {
-                        _id: posts.length,
-                        header: post.header,
-                        text: post.text,
-                        author: post.author
-                    }
+                    new Post(post)
                 );
                 saveData();
                 deferred.resolve(
-                    posts[posts.length - 1]
+                    { status: 'add success' ,  post: posts[posts.length - 1] }
                 );
         return deferred.promise;
-    }
+    };
 
-
-    return that;
-
+    constructor();
 };
-
-PostService.$inject = ['$localStorage','$q'];
