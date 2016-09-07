@@ -1,12 +1,12 @@
 
 <div class="main-post-list-container">
 
- <h4>New Post</h4>
- <post is-root-post="true" on-post-change="listCtrl._onPostChange($event)"></post>
-
- <hr/>
-
- <h4>{{listCtrl.header}}</h4>
- <post ng-repeat="item in listCtrl.posts | orderBy:'$index':true" post="item" on-post-change="listCtrl._onPostChange($event)" ></post>
+    <h4>New Post</h4>
+    <post is-root-post="true" on-post-change="listCtrl._onPostChange($event)"></post>
+    <hr/>
+    
+    <h4>Post List <small ng-show="!listCtrl.posts.length">no posts exsist</small></h4>
+    <hr/>
+    <post ng-repeat="item in listCtrl.posts | orderBy:'$index':true" post="item" on-post-change="listCtrl._onPostChange($event)" ></post>
 
 </div>

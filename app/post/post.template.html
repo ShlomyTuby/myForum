@@ -3,12 +3,14 @@
 <form ng-if="$ctrl.isNewPost" ng-submit="$ctrl.savePost($ctrl.post)" class="form-inline replay-container">
   <button type="submit" class="btn btn-primary">Post</button>
   <div class="form-group">
-    <input class="post_text_input"  ng-model="$ctrl.post.text" type="text" required class="form-control" id="text" placeholder="{{ $ctrl.parentPost ? 'RE:' + $ctrl.parentPost.text : 'new post' }}">
+    <input class="post_text_input"  ng-model="$ctrl.post.text" type="text" required class="form-control" id="text" placeholder="{{ $ctrl.parentPost ? 'RE: ' + $ctrl.parentPost.text : 'new post' }}">
   </div>
 </form>
 
 <div ng-if="!$ctrl.isNewPost">
-  <h5><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="$ctrl.deletePost($ctrl.post)"></span> {{$ctrl.post.text}} <small># {{$ctrl.post.author}}</small></h5>     
+  <h5> {{$ctrl.post.text}} <small># {{$ctrl.post.author}}</small>
+    <img class="delete-post-img" ng-click="$ctrl.deletePost($ctrl.post)" src="images/delete-property-xxl.png" alt="delete"/>
+  </h5>     
   <post parent-post="$ctrl.post" on-post-change="$ctrl._onPostChange($event)"></post>
 </div>
 

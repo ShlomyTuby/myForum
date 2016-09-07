@@ -15,7 +15,6 @@ function PostListController($scope,PostService){
     that._onPostChange = _onPostChange;
     
     function constructor(){
-        that.header = 'Posts List';
         that.showChildrens = false;
         that.posts = PostService.getAllRootPosts();
     }
