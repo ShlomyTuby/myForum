@@ -33,4 +33,5 @@ Post.prototype.constructor = function(props){
                 }
             }
         }
+        return this;
     };

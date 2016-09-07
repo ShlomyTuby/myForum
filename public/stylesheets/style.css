@@ -1,3 +1,20 @@
 nav .form-inline.navbar-form.pull-right{
   float: right;
 }
+
+
+.main-post-list-container {
+  margin-top: 20px;
+}
+
+.replay-container {
+  padding-left: 15px;
+}
+
+.post_div{
+  margin-left: 20px;
+}
+
+.post_text_input{
+  width: 400px
+}

@@ -1,12 +1,12 @@
- <br/>
- <h2>{{listCtrl.header}}</h2>
+
+<div class="main-post-list-container">
+
+ <h4>New Post</h4>
+ <post is-root-post="true" on-post-change="listCtrl._onPostChange($event)"></post>
+
  <hr/>
 
- <div post-id="{{post._id}}" class="card card-block" ng-repeat="post in listCtrl.posts | orderBy:'$index':true ">
-  <h4 class="card-title">{{post.header}}  <small>#{{post.author}}</small>   <button ng-disabled="post.disableDeletedBotton" ng-click="listCtrl.deletePost(post)" class="btn btn-danger btn-sm">Delete</button></h4>
- 
-  <p class="card-text">{{post.text}}</p>
+ <h4>{{listCtrl.header}}</h4>
+ <post ng-repeat="item in listCtrl.posts | orderBy:'$index':true" post="item" on-post-change="listCtrl._onPostChange($event)" ></post>
 
-  <new-post-replay parentPost="{{post}}" onAddNewReplay="$ctrl.onAddNewReplay()"></new-post-replay>
-  
 </div>

@@ -12,26 +12,24 @@ PostListController.$inject = ['$scope','PostService'];
 function PostListController($scope,PostService){
     
     var that = this
-    that.deletePost = deletePost;
-    that.onAddNewReplay = onAddNewReplay;
-
+    that._onPostChange = _onPostChange;
+    
     function constructor(){
         that.header = 'Posts List';
-        that.posts = PostService.getAllPosts();
+        that.showChildrens = false;
+        that.posts = PostService.getAllRootPosts();
     }
 
-    function deletePost(post){
-        post.disableDeletedBotton = true;
-        PostService.deletePost(post)
-            .then(function(){
-                that.posts = PostService.getAllPosts();
-            });
-    }
-
-    function onAddNewReplay(){
-         that.posts = PostService.getAllPosts();
+    /**
+     * 
+     * onPostChange
+     */
+    function _onPostChange(post) {
+        that.posts = PostService.getAllRootPosts();
     }
 
     constructor();
+
+    return that;
 };
 

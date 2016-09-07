@@ -14,8 +14,11 @@ function PostService($localStorage,$q){
     var that = this;
 
     that.getAllPosts = getAllPosts;
+    that.getAllRootPosts = getAllRootPosts;
     that.deletePost = deletePost;
-    that.addNewPost = addNewPost;
+    that.savePost = savePost;
+    that.getPostChildren = getPostChildren;
+    
 
     posts = [];
     function constructor() {
@@ -32,9 +35,23 @@ function PostService($localStorage,$q){
 
     function getAllPosts() {
         initData();
+        return posts;
+    };
+
+    function getAllRootPosts() {
+        initData();
         return posts.filter(function(post){
-            return !post.parentPostId;
-        });;
+            return post && post.parentPostId == null;
+        });
+    };
+
+    function getPostChildren(post) {
+        if(post){
+            initData();
+            return posts.filter(function(_post){
+                return _post.parentPostId == post._id;
+            });
+        };
     };
 
     function deletePost(post) {
@@ -49,13 +66,13 @@ function PostService($localStorage,$q){
         return deferred.promise;
     };
 
-    function addNewPost(post) {
+    function savePost(post) {
         var deferred = $q.defer();
                 if(!posts){
                     posts = [];
                 };
                 posts.push(
-                    new Post(post)
+                    post
                 );
                 saveData();
                 deferred.resolve(
