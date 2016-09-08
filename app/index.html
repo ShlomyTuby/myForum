@@ -21,17 +21,14 @@
 
 <body ng-app="myForum" >
 
-    <div class="container" ng-controller="MainController" >
-
         <main-nav></main-nav>
 
-        <div ng-view></div>
-        
-    </div>
-  
+        <div class="main-app-view-div" ng-view></div>
+          
   <script type="text/javascript" src="jquery/dist/jquery.js?V1.0.0" > </script>
   <script type="text/javascript" src="angular/angular.js?V1.0.0" > </script>
   <script type="text/javascript" src="angular-route/angular-route.js?V1.0.0" > </script>
+  <script type="text/javascript" src="angular-cookies/angular-cookies.js?V1.0.0" > </script>
   <script type="text/javascript" src="ngstorage/ngstorage.js?V1.0.0" > </script>
   <script type="text/javascript" src="tether/dist/js/tether.js?V1.0.0" > </script>
   <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js?V1.0.0" > </script>
@@ -49,14 +46,18 @@
   
   <!-- services -->
   <script type="text/javascript" src="post/post.service.js" > </script>
-  <script type="text/javascript" src="app-properties.service.js" > </script>
-  <script type="text/javascript" src="local-storage.service.js" > </script>
+  <script type="text/javascript" src="services/app-properties.service.js" > </script>
+  <script type="text/javascript" src="services/local-storage.service.js" > </script>
+  <script type="text/javascript" src="services/authentication.service.js" > </script>
+  <script type="text/javascript" src="user/user.service.js" > </script>
 
   <!-- components -->
   <script type="text/javascript" src="main-nav/main-nav.component.js" > </script>
   <script type="text/javascript" src="post/post.component.js" > </script>
   <script type="text/javascript" src="post/post-list.component.js" > </script>
   <script type="text/javascript" src="post/new-post.component.js" > </script>
+  <script type="text/javascript" src="login/login.component.js" > </script>
+  <script type="text/javascript" src="register/register.component.js" > </script>
   
   <!-- controllers -->
   <script type="text/javascript" src="main.controller.js" > </script>

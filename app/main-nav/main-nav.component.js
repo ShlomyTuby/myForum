@@ -12,9 +12,9 @@ angular.module('myForum')
     });
 
 
-MainNavController.$inject = ['$scope','$location','AppPropertiesService'];
+MainNavController.$inject = ['$scope','$location','AppPropertiesService','UserService'];
 
-function MainNavController($scope,$location,AppPropertiesService){
+function MainNavController($scope,$location,AppPropertiesService,UserService){
 
     var that = this;
     that.isActive = isActive;
@@ -39,14 +39,14 @@ function MainNavController($scope,$location,AppPropertiesService){
             if( $scope.userName == null && $scope.userName != newVal ){
                 $scope.userName = newVal;
                 !$scope.$$phase || $scope.$digest();
-            }
+            };
+            that.loginUser = null;
+            UserService.GetByUsername(newVal)
+                .then(function(user){
+                    that.loginUser = user;
+                });
         });
 
-        $scope.$watch('userName',function(newValue,oldValue){
-            if( (newValue != null ||  oldValue != null ) && newValue !== oldValue ){
-                AppPropertiesService.setProperty('userName',newValue);
-            }
-        },true);
 
     }
 

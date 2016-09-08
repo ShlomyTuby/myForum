@@ -1,16 +1,50 @@
+<!--
+
 <nav class="navbar navbar-dark bg-primary">
     <a class="navbar-brand" href="#">{{ navCtrl.appName }}</a>
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav navbar-right">
         <li class="nav-item" ng-class="{'active': navCtrl.isActive('/posts')}">
         <a class="nav-link" href="#/posts">Post List</a>
         </li>
         <li class="nav-item" ng-class="{'active': navCtrl.isActive('/post/new')}">
         <a class="nav-link" href="#/post/new">New Post</a>
         </li>
-    </ul>
 
-    <form class="form-inline navbar-form pull-right">
-        <input ng-model="userName" class="form-control" type="text" placeholder="User Name">
-    </form>
+
+        <li class="nav-item" ng-if="!navCtrl.loginUser" ng-class="{'active': navCtrl.isActive('/login')}">
+            <a class="nav-link" href="#/login">login</a>
+        </li>
+        <li class="nav-item" ng-if="navCtrl.loginUser">
+            <span> hello {{ navCtrl.loginUser.firstName }} </span>
+        </li>
+        <li class="nav-item" ng-if="navCtrl.loginUser">
+            <a class="nav-link" href="#/login">logout</a>
+        </li>
+    </ul>
+    
 </nav>
 
+-->
+
+<nav class="navbar navbar-primary">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">{{ navCtrl.appName }}</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ng-class="{'active': navCtrl.isActive('/post/new')}"><a href="#/post/new">New Post</a></li>
+        <li ng-class="{'active': navCtrl.isActive('/posts')}"><a href="#/posts">Post List</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-class="{'active': navCtrl.isActive('/login')}" ng-if="!navCtrl.loginUser"><a href="#/login">login</a></li>
+        <li ng-class="{'active': navCtrl.isActive('/login')}" ng-if="navCtrl.loginUser"><a href="#/login">logout</a></li>
+        <li ng-if="navCtrl.loginUser" ><p class="navbar-text" >hello {{ navCtrl.loginUser.firstName }}</p></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
