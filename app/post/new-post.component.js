@@ -45,7 +45,7 @@ function NewPostController($scope,postService,$location,AppPropertiesService){
      * and redirectTo post-list view
      */
     function addNewPost() {
-        postService.addNewPost(
+        postService.savePost(
             $scope.newPost
         ).then(function(){
             $location.path('/posts').replace();

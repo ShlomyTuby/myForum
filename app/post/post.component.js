@@ -51,7 +51,7 @@ function PostController($scope,PostService,AppPropertiesService){
                  *  register For App Prop 'name' field Change
                  */
                 AppPropertiesService.registerForChange('userName',function(newVal,oldVal){
-                    $scope.post.author = newVal;
+                    that.post.author = newVal;
                     !$scope.$$phase || $scope.$digest();  
                 });
 
