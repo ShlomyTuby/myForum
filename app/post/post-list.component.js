@@ -13,10 +13,15 @@ function PostListController($scope,PostService){
     
     var that = this
     that._onPostChange = _onPostChange;
+    that.posts = [];
     
     function constructor(){
         that.showChildrens = false;
-        that.posts = PostService.getAllRootPosts();
+        PostService.getAllRootPosts()
+            .then(function(posts){
+                that.posts = posts;
+                console.log(posts);
+            });
     }
 
     /**
@@ -24,7 +29,10 @@ function PostListController($scope,PostService){
      * onPostChange
      */
     function _onPostChange(post) {
-        that.posts = PostService.getAllRootPosts();
+        PostService.getAllRootPosts()
+            .then(function(posts){
+                that.posts = posts;
+            });;
     }
 
     constructor();

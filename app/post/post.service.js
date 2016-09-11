@@ -7,9 +7,9 @@
 angular.module('myForum')
     .service('PostService',PostService);
 
-PostService.$inject = ['$localStorage','$q'];
+PostService.$inject = ['$localStorage','$q','$http'];
 
-function PostService($localStorage,$q){
+function PostService($localStorage,$q,$http){
 
     var that = this;
 
@@ -20,66 +20,50 @@ function PostService($localStorage,$q){
     that.getPostChildren = getPostChildren;
     
 
-    posts = [];
-    function constructor() {
-        initData();
-    }
-
-    function saveData() {
-        $localStorage.posts = posts || [];
-    };
-
-    function initData() {
-        posts = $localStorage.posts || [];
-    };
+    return that;
 
     function getAllPosts() {
-        initData();
-        return posts;
+        return $http.get('/api/posts');
     };
 
     function getAllRootPosts() {
-        initData();
-        return posts.filter(function(post){
-            return post && post.parentPostId == null;
-        });
+        var defferd =  $q.defer();
+        getAllPosts()
+            .success(function(posts){
+                defferd.resolve(
+                    posts.filter(function(p){
+                        return p.parentPostId == null;
+                    })    
+                );
+            });
+        return defferd.promise;
     };
 
     function getPostChildren(post) {
         if(post){
-            initData();
-            return posts.filter(function(_post){
-                return _post.parentPostId == post._id;
-            });
+            var defferd =  $q.defer();
+            getAllPosts()
+                .success(function(posts){
+                    defferd.resolve(
+                        posts.filter(function(p){
+                            return post._id != null && p.parentPostId == post._id;
+                        })    
+                    );
+                });
+            return defferd.promise;
         };
     };
 
     function deletePost(post) {
-        var deferred = $q.defer();
-                posts = posts.filter(function(p){
-                    return p._id !== post._id;
-                });
-                saveData();
-                deferred.resolve(
-                    { status: 'deleted success' }
-                );
-        return deferred.promise;
+        return $http.delete('/api/posts/'+post._id);
     };
 
     function savePost(post) {
-        var deferred = $q.defer();
-                if(!posts){
-                    posts = [];
-                };
-                posts.push(
-                    post
-                );
-                saveData();
-                deferred.resolve(
-                    { status: 'add success' ,  post: posts[posts.length - 1] }
-                );
-        return deferred.promise;
+        if(post._id){
+            return $http.put('/api/posts/'+post._id,post);
+        } else {
+            return $http.post('/api/posts/',post);
+        }
     };
 
-    constructor();
 };

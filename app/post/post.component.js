@@ -24,6 +24,7 @@ function PostController($scope,PostService,AppPropertiesService){
     that.savePost = savePost;
     that.deletePost = deletePost;
     that._onPostChange = _onPostChange;
+    that.posts = [];
 
     function constructor (){
          
@@ -58,8 +59,10 @@ function PostController($scope,PostService,AppPropertiesService){
             } else {
 
                 //get children posts
-                that.posts = PostService.getPostChildren(that.post);
-
+                PostService.getPostChildren(that.post)
+                    .then(function(posts){
+                        that.posts = posts;
+                    });
             }
             
         };
@@ -80,7 +83,10 @@ function PostController($scope,PostService,AppPropertiesService){
             }
             that.$onInit();
             that.onPostChange(that.post);
-            that.posts = PostService.getPostChildren(that.post);
+            PostService.getPostChildren(that.post)
+                .then(function(posts){
+                    that.posts = posts;
+                });
         });
     };
 
@@ -102,7 +108,10 @@ function PostController($scope,PostService,AppPropertiesService){
      */
     function _onPostChange(post) {
         //console.log('onPostChange',post);
-        that.posts = PostService.getPostChildren(that.post);
+        PostService.getPostChildren(that.post)
+                .then(function(posts){
+                    that.posts = posts;
+                });
     }
 
     //this.$onInit()
