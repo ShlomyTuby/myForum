@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost/myForum');
+mongoose.connect('mongodb://localhost/myForum',function(err){
+  if(err) console.error(err);
+});
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
@@ -39,6 +41,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 

@@ -26,3 +26,24 @@ nav .form-inline.navbar-form.pull-right{
 .main-app-view-div{
   margin-left: 20px;
 }
+
+
+.action-link {
+  padding: 2px;
+  color: blue;
+  border: 2px solid blue;
+  border-radius:  4px;
+}
+
+.action-link:hover {
+  padding: 3px;
+  color: blue;
+  border-width: 3px;
+  font-weight: 200;
+}
+
+.action-link.active {
+  color: red;
+  border: 2px solid red;
+  border-radius:  4px;
+}

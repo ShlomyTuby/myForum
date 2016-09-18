@@ -27,31 +27,11 @@ function PostService($localStorage,$q,$http){
     };
 
     function getAllRootPosts() {
-        var defferd =  $q.defer();
-        getAllPosts()
-            .success(function(posts){
-                defferd.resolve(
-                    posts.filter(function(p){
-                        return p.parentPostId == null;
-                    })    
-                );
-            });
-        return defferd.promise;
+        return $http.get('/api/posts/root');
     };
 
     function getPostChildren(post) {
-        if(post){
-            var defferd =  $q.defer();
-            getAllPosts()
-                .success(function(posts){
-                    defferd.resolve(
-                        posts.filter(function(p){
-                            return post._id != null && p.parentPostId == post._id;
-                        })    
-                    );
-                });
-            return defferd.promise;
-        };
+        return $http.get('/api/posts/byParentPostId/'+post._id);
     };
 
     function deletePost(post) {

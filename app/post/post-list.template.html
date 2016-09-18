@@ -7,6 +7,10 @@
     
     <h4>Post List <small ng-show="!listCtrl.posts.length">no posts exsist</small></h4>
     <hr/>
-    <post ng-repeat="item in listCtrl.posts | orderBy:'$index':true" post="item" on-post-change="listCtrl._onPostChange($event)" ></post>
+    <post   ng-repeat="item in listCtrl.posts | orderBy:'$index':true" 
+            post="item" 
+            on-post-change="listCtrl._onPostChange($event)"
+            mode="Close">
+    </post>
 
 </div>

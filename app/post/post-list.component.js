@@ -14,29 +14,30 @@ function PostListController($scope,PostService){
     var that = this
     that._onPostChange = _onPostChange;
     that.posts = [];
+    that.$onInit = constructor;
+
+    return that;
     
+
+    function getRootPosts() {
+        PostService.getAllRootPosts()
+            .then(function(res){
+                that.posts = res.data;
+            });
+    };
+
     function constructor(){
         that.showChildrens = false;
-        PostService.getAllRootPosts()
-            .then(function(posts){
-                that.posts = posts;
-                console.log(posts);
-            });
-    }
+        getRootPosts();
+    };
 
     /**
      * 
      * onPostChange
      */
     function _onPostChange(post) {
-        PostService.getAllRootPosts()
-            .then(function(posts){
-                that.posts = posts;
-            });;
-    }
-
-    constructor();
-
-    return that;
+        getRootPosts();
+    };
+    
 };
 

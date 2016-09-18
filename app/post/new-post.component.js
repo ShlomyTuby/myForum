@@ -17,13 +17,16 @@ function NewPostController($scope,postService,$location,AppPropertiesService){
     var that = this;
 
     that.addNewPost = addNewPost;
+    that.$onInit = constructor;
+
+    return that;
 
     function constructor (){
         /**
          * initial data
          */
         that.header = 'New Post';
-        $scope.newPost = new Post();
+        $scope.newPost = {};
         /**
          *  get current global app Prop 'name' field' 
          */
@@ -50,8 +53,7 @@ function NewPostController($scope,postService,$location,AppPropertiesService){
         ).then(function(){
             $location.path('/posts').replace();
         });
-        $scope.newPost = new Post();
+        $scope.newPost = {};
     }
 
-    constructor();
 };

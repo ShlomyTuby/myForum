@@ -8,13 +8,15 @@
 </form>
 
 <div ng-if="!$ctrl.isNewPost">
-  <h4 ng-if="$ctrl.post.header">{{$ctrl.post.header}}</h4><h5> {{$ctrl.post.text}} <small># {{$ctrl.post.author}}</small>
-    <img class="delete-post-img" ng-click="$ctrl.deletePost($ctrl.post)" src="images/delete-property-xxl.png" alt="delete"/>
+  <h4 ng-if="$ctrl.post.header">{{$ctrl.post.header}}</h4><h5> {{$ctrl.post.text}} <small># {{$ctrl.post.author}} ({{ $ctrl.post.viewersCount }} viewers)</small>
+    <span class="action-link" ng-class="{'active': false}" ng-click="$ctrl.deletePost($ctrl.post)">Delete</span>
+    <span class="action-link" ng-class="{'active': mode.showDetails}" ng-click="$ctrl.toggelMode('Details')">Show Childrens {{ $ctrl.replayCount }}</span>
+    <span class="action-link" ng-class="{'active': mode.showReplay}" ng-click="$ctrl.toggelMode('Replay')">Replay</span>
   </h5>     
-  <post parent-post="$ctrl.post" on-post-change="$ctrl._onPostChange($event)"></post>
+  <post ng-if="mode.showReplay" parent-post="$ctrl.post" on-post-change="$ctrl._onPostChange($event)"></post>
 </div>
 
-<div ng-if="$ctrl.posts">
+<div ng-if="$ctrl.posts && mode.showDetails ">
    <post ng-repeat="item in $ctrl.posts | orderBy:'$index':true" post="item"  on-post-change="$ctrl._onPostChange($event)" ></post>
 </div>
 </div>

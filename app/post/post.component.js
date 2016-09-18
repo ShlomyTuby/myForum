@@ -12,6 +12,7 @@ angular.module('myForum')
             parentPost: '<',
             onPostChange: '&',
             isRootPost: '<',
+            intialmode: '=mode',            
         }
     });
 
@@ -24,11 +25,13 @@ function PostController($scope,PostService,AppPropertiesService){
     that.savePost = savePost;
     that.deletePost = deletePost;
     that._onPostChange = _onPostChange;
-    that.posts = [];
+    that.posts = null;
+    that.toggelMode = toggelMode;
+    that.$onInit = constructor;
+
+    return that;
 
     function constructor (){
-         
-        that.$onInit = function(){
             
              /**
              * initial data
@@ -37,9 +40,9 @@ function PostController($scope,PostService,AppPropertiesService){
                 
                 that.isNewPost = true;
 
-                that.post = new Post({
+                that.post = {
                     'parentPostId': (that.parentPost ? that.parentPost._id : null)
-                });
+                };
                 
                 /**
                  *  get current global app Prop 'name' field' 
@@ -57,18 +60,52 @@ function PostController($scope,PostService,AppPropertiesService){
                 });
 
             } else {
-
-                //get children posts
-                PostService.getPostChildren(that.post)
-                    .then(function(posts){
-                        that.posts = posts;
-                    });
+                that.replayCount = that.post.replayCount
             }
             
-        };
-        
+            that.toggelMode(that.intialmode);
+
+            $scope.$watch('mode.showDetails',function(newVal,oldVal){
+                if(newVal){
+                    getChildrens();
+                }
+            });
 
     };
+
+    function getChildrens() {
+        //get children posts
+        PostService.getPostChildren(that.post)
+            .then(function(res){
+                that.posts = res.data;
+                that.replayCount = that.posts.length;
+            });
+
+    }
+
+    function toggelMode(modeName){
+        
+        if( !$scope.mode ){
+            $scope.mode = {
+                showDetails: false,
+                showReplay: false,
+            };
+        }
+        if(!modeName) return;
+
+        switch (modeName) {
+            case 'Details':
+                $scope.mode.showDetails = !$scope.mode.showDetails;
+                break;
+            case 'Replay':
+                $scope.mode.showReplay = !$scope.mode.showReplay;
+                break;
+            default:
+                break;
+        }
+
+    }
+
 
     /**
      * add new post 
@@ -83,10 +120,7 @@ function PostController($scope,PostService,AppPropertiesService){
             }
             that.$onInit();
             that.onPostChange(that.post);
-            PostService.getPostChildren(that.post)
-                .then(function(posts){
-                    that.posts = posts;
-                });
+            getChildrens();
         });
     };
 
@@ -99,6 +133,7 @@ function PostController($scope,PostService,AppPropertiesService){
         ).then(function(res){
             //console.log('post deleted succesfuly ',res);
             that.onPostChange(that.post);
+            getChildrens();
         });
     };
 
@@ -108,14 +143,7 @@ function PostController($scope,PostService,AppPropertiesService){
      */
     function _onPostChange(post) {
         //console.log('onPostChange',post);
-        PostService.getPostChildren(that.post)
-                .then(function(posts){
-                    that.posts = posts;
-                });
+        getChildrens();
     }
 
-    //this.$onInit()
-    constructor();
-
-    return that;
 };
