@@ -111,6 +111,10 @@ function PostController($scope,PostService,AppPropertiesService){
      * add new post 
      */
     function savePost(post) {
+        if(!post.parentPostId){
+            post.header = post.text;
+            post.text = null;
+        }
         PostService.savePost(
             post
         ).then(function(res){
