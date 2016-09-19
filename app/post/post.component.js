@@ -26,6 +26,7 @@ function PostController($scope,PostService,AppPropertiesService){
     that.deletePost = deletePost;
     that._onPostChange = _onPostChange;
     that.posts = null;
+    that.searchText = '';
     that.toggelMode = toggelMode;
     that.$onInit = constructor;
 
@@ -69,6 +70,10 @@ function PostController($scope,PostService,AppPropertiesService){
                 if(newVal){
                     getChildrens();
                 }
+            });
+
+            $scope.$on('searchTextChange',function(event,searchText){
+                that.searchText = searchText;
             });
 
     };

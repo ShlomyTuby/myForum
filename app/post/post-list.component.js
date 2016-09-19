@@ -14,6 +14,7 @@ function PostListController($scope,PostService){
     var that = this
     that._onPostChange = _onPostChange;
     that.posts = [];
+    that.searchText = '';
     that.$onInit = constructor;
 
     return that;
@@ -29,6 +30,10 @@ function PostListController($scope,PostService){
     function constructor(){
         that.showChildrens = false;
         getRootPosts();
+
+        $scope.$on('searchTextChange',function(event,searchText){
+            that.searchText = searchText;
+        });
     };
 
     /**

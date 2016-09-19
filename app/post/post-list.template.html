@@ -1,16 +1,28 @@
 
-<div class="main-post-list-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-sub-header">
+                <h4 id="typography">New Post</h4>
+            </div>
 
-    <h4>New Post</h4>
-    <post is-root-post="true" on-post-change="listCtrl._onPostChange($event)"></post>
-    <hr/>
-    
-    <h4>Post List <small ng-show="!listCtrl.posts.length">no posts exsist</small></h4>
-    <hr/>
-    <post   ng-repeat="item in listCtrl.posts | orderBy:'$index':true" 
-            post="item" 
-            on-post-change="listCtrl._onPostChange($event)"
-            mode="Close">
-    </post>
+            <post is-root-post="true" on-post-change="listCtrl._onPostChange($event)"></post>
 
-</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h2 id="typography">Post List</h2>    
+            </div>
+
+            <p class="text-primary" ng-show="!listCtrl.posts.length">no posts exsist</p>
+            
+            <post   ng-repeat="item in listCtrl.posts | filter:listCtrl.searchText | orderBy:'$index':true" 
+                    post="item" 
+                    on-post-change="listCtrl._onPostChange($event)"
+                    mode="Close">
+            </post>
+
+        </div>
+    </div>
