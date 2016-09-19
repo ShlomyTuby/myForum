@@ -8,20 +8,20 @@
   <meta name="description" content="Forum using angularjs">
   <meta name="author" content="Shalom Tuby">
 
-  <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+  <!-- from https://bootswatch.com/cyborg/ -->
+  <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
   <link rel="stylesheet" href="stylesheets/style.css">
 
-
-  <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-  <![endif]-->
 </head>
 
 <body ng-app="myForum" >
 
         <main-nav></main-nav>
 
-        <div class="main-app-view-div" ng-view></div>
+        
+        <div class="container">
+            <ng-view></ng-view>
+        </div>
           
   <script type="text/javascript" src="jquery/dist/jquery.js?V1.0.0" > </script>
   <script type="text/javascript" src="angular/angular.js?V1.0.0" > </script>
@@ -45,6 +45,14 @@
   <script type="text/javascript" src="services/authentication.service.js" > </script>
   <script type="text/javascript" src="user/user.service.js" > </script>
 
+  
+  <!-- filters -->
+  <script type="text/javascript" src="search/mark-search.filter.js" > </script>
+
+  
+  <!-- directives -->
+  <script type="text/javascript" src="search/mark-search.directive.js" > </script>
+
   <!-- components -->
   <script type="text/javascript" src="main-nav/main-nav.component.js" > </script>
   <script type="text/javascript" src="post/post.component.js" > </script>
@@ -52,6 +60,7 @@
   <script type="text/javascript" src="post/new-post.component.js" > </script>
   <script type="text/javascript" src="login/login.component.js" > </script>
   <script type="text/javascript" src="register/register.component.js" > </script>
+  <script type="text/javascript" src="search/search.component.js" > </script>
   
   <!-- controllers -->
   <script type="text/javascript" src="main.controller.js" > </script>
