@@ -7,3 +7,6 @@ my first angular 1.5 app
 
 # last pull requests
   shlomy -> change UI and add Search Component
+  
+# screenshots
+  <img src=""/>
