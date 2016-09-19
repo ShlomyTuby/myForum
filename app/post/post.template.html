@@ -1,34 +1,28 @@
 
-<div class="post_div">
-<form ng-if="$ctrl.isNewPost" ng-submit="$ctrl.savePost($ctrl.post)" class="replay-container">
-    <div class="row">
-    <div class="col-lg-6">
-      <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit">Replay</button>
-        </span>
-        <input ng-model="$ctrl.post.text" required type="text" id="text" class="form-control" placeholder="{{ $ctrl.parentPost ? 'RE: ' + $ctrl.parentPost.header || $ctrl.parentPost.text : 'new post' }}">
-      </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-  </div><!-- /.row -->
+<form ng-if="$ctrl.isNewPost" ng-submit="$ctrl.savePost($ctrl.post)">
+  <div class="form-group" ng-if="$ctrl.isNewPost">
+    <input ng-model="$ctrl.post.text" required class="form-control input-sm" type="text" id="postText">
+  </div>
 </form>
 
-<div ng-if="!$ctrl.isNewPost">
-    <h4 ng-if="$ctrl.post.header">
-      <img class="action-link-deleted" ng-src="/images/icons/cancel.png" ng-click="$ctrl.deletePost($ctrl.post)" title="Deleted Post"/>
-      {{$ctrl.post.header}}</h4><h5> {{$ctrl.post.text}} <small class="author_text"># {{$ctrl.post.author}} </small> <small> ({{ $ctrl.post.viewersCount }} viewers)</small>
-    <button ng-click="$ctrl.toggelMode('Details')" ng-class="{'active': mode.showDetails}"  class="btn btn-default btn-sm" type="button">
-      Show Childrens <span class="badge">{{ $ctrl.replayCount }}</span>
-    </button>
-    <button ng-click="$ctrl.toggelMode('Replay')" ng-class="{'active': mode.showReplay}"  class="btn btn-default btn-sm" type="button">
-      Replay <img class="action-link-replay" ng-src="/images/icons/paper-plane.png" />
-    </button>
-    
-  </h5>     
-  <post ng-if="mode.showReplay" parent-post="$ctrl.post" on-post-change="$ctrl._onPostChange($event)"></post>
-</div>
 
-<div ng-if="$ctrl.posts && mode.showDetails ">
-   <post ng-repeat="item in $ctrl.posts | orderBy:'$index':true" post="item"  on-post-change="$ctrl._onPostChange($event)" ></post>
-</div>
+<div ng-if="!$ctrl.isNewPost">
+  <blockquote>
+    <h4 marksearch >{{ $ctrl.post.header }}</h4>
+    <p marksearch >{{$ctrl.post.text}}</p>
+    <small marksearch >{{$ctrl.post.author}}    <cite title="Source Title">({{ $ctrl.post.viewersCount }} viewers)</cite></small>
+    <div>
+      <a ng-class="{'active': mode.showReplay}" ng-click="$ctrl.toggelMode('Replay')" class="btn btn-primary btn-xs">Replay</a>
+      <a ng-class="{'active': mode.showDetails}" ng-click="$ctrl.toggelMode('Details')" class="btn btn-default btn-xs">Show Replays <span class="badge">{{ $ctrl.replayCount }}</span></a>
+      <a ng-click="$ctrl.deletePost($ctrl.post)" class="btn btn-danger btn-xs">Delete</a>
+    </div>
+    <div ng-if="mode.showReplay">
+      <hr>
+      <post  parent-post="$ctrl.post" on-post-change="$ctrl._onPostChange($event)"></post>
+    </div>
+
+    <div ng-if="$ctrl.posts && mode.showDetails ">
+      <post ng-repeat="item in $ctrl.posts | filter:$ctrl.searchText | orderBy:'$index':true" post="item"  on-post-change="$ctrl._onPostChange($event)" ></post>
+    </div>
+  </blockquote>
 </div>
